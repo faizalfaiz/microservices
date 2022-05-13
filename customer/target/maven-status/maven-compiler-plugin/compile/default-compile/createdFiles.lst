@@ -1,0 +1,7 @@
+org\customer\CustomerApplication.class
+org\customer\CustomerRegistrationRequest.class
+org\customer\Customer.class
+org\customer\Customer$CustomerBuilder.class
+org\customer\CustomerService.class
+org\customer\CustomerRepository.class
+org\customer\CustomerController.class
