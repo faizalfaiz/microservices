@@ -3,6 +3,8 @@ package org.customer;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.myapp.clients.Notification.NotificationClient;
+import com.myapp.clients.Notification.NotificationRequest;
 import com.myapp.clients.fraud.FraudCheckResponse;
 import com.myapp.clients.fraud.FraudClient;
 
@@ -14,6 +16,7 @@ public class CustomerService {
 
 	private final RestTemplate restTemplate;
 	private final CustomerRepository customerRepository;
+	private final NotificationClient notificationClient;
 	private final FraudClient fraudClient;
 	public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
@@ -35,5 +38,12 @@ fraudClient.isFraudster(customer.getId());
  //todo: check if email valid, email not taken, store customer in db
 //check if fraudster
 //todo: send notification
+   
+      notificationClient.sendNotification(new NotificationRequest(
+    		  customer.getId(),
+    		  customer.getEmail(),
+    		  String.format("Hi there, %s",customer.getFirstName())
+    		  
+    		 ) );
 	}
 }

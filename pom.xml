@@ -58,7 +58,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<version>2.6.7</version>
+			<version>2.6.7</version><!--$NO-MVN-MAN-VER$-->
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -79,5 +79,6 @@
 		<module>fraud</module>
 		<module>eureka-server</module>
 		<module>clients</module>
+		<module>notification</module>
 	</modules>
 </project>
