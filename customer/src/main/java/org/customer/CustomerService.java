@@ -1,5 +1,6 @@
 package org.customer;
 
+import org.amqp.RabbitMQMessageProducer;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,10 +15,13 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CustomerService {
 
-	private final RestTemplate restTemplate;
+//	private final RestTemplate restTemplate;
 	private final CustomerRepository customerRepository;
-	private final NotificationClient notificationClient;
+//	private final NotificationClient notificationClient;
 	private final FraudClient fraudClient;
+	private final RabbitMQMessageProducer rabbitMQMessageProducer;
+	
+	
 	public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.getFirstName())
@@ -39,11 +43,13 @@ fraudClient.isFraudster(customer.getId());
 //check if fraudster
 //todo: send notification
    
-      notificationClient.sendNotification(new NotificationRequest(
+     NotificationRequest notificationRequest = new NotificationRequest(
     		  customer.getId(),
     		  customer.getEmail(),
     		  String.format("Hi there, %s",customer.getFirstName())
     		  
-    		 ) );
+    		 ) ;
+     
+     rabbitMQMessageProducer.publish(notificationRequest, "internal.exchange","internal.notification.routing-key");
 	}
 }
